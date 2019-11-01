@@ -8,6 +8,7 @@
     "electron": "^7.0.0",
     "nodemon": "^1.19.4"
   },
+  "repository": "https://github.com/sasupa/electron-support",
   "scripts": {
     "start": "electron .",
     "watch": "nodemon --exec 'electron .'"
