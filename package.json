@@ -1,0 +1,17 @@
+{
+  "name": "electron-support",
+  "version": "1.0.0",
+  "description": "Hook Support desktop app",
+  "main": "main.js",
+  "dependencies": {},
+  "devDependencies": {
+    "electron": "^7.0.0",
+    "nodemon": "^1.19.4"
+  },
+  "scripts": {
+    "start": "electron .",
+    "watch": "nodemon --exec 'electron .'"
+  },
+  "author": "Sasu Paakkunainen",
+  "license": "ISC"
+}
