@@ -2,10 +2,13 @@
 const {app, BrowserWindow} = require('electron')
 const path = require('path')
 
+// Global variables
+global["testVar"] = "a var set in main.js"
+global["userAgent"] = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/70.0.3538.110 Safari/537.36"
+
 // Keep a global reference of the window object, if you don't, the window will
 // be closed automatically when the JavaScript object is garbage collected.
 let mainWindow
-let googleWindow
 
 function createWindow () {
   // Create the browser window.
@@ -14,16 +17,17 @@ function createWindow () {
     height: 600,
     minHeight: 200,
     minWidth: 150,
+    x: 100,
+    y: 100,
     webPreferences: {
+      nodeIntegration: true,
       preload: path.join(__dirname, 'preload.js')
     }
   })
 
-  // and load the index.html of the app.
+  // load window content
   mainWindow.loadFile('index.html')
-
-  // Open the DevTools.
-  // mainWindow.webContents.openDevTools()
+  mainWindow.openDevTools({mode:'undocked'})
 
   // Emitted when the window is closed.
   mainWindow.on('closed', function () {
