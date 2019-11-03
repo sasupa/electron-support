@@ -1,10 +1,10 @@
 // Modules to control application life and create native browser window
-const {app, BrowserWindow} = require('electron')
+const {app, BrowserWindow, BrowserView} = require('electron')
 const path = require('path')
 
 // Global variables
 global["testVar"] = "a var set in main.js"
-global["userAgent"] = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/70.0.3538.110 Safari/537.36"
+var userAgent = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/70.0.3538.110 Safari/537.36"
 
 // Keep a global reference of the window object, if you don't, the window will
 // be closed automatically when the JavaScript object is garbage collected.
@@ -13,8 +13,8 @@ let mainWindow
 function createWindow () {
   // Create the browser window.
   mainWindow = new BrowserWindow({
-    width: 800,
-    height: 600,
+    width: 1400,
+    height: 800,
     minHeight: 200,
     minWidth: 150,
     x: 100,
@@ -28,6 +28,27 @@ function createWindow () {
   // load window content
   mainWindow.loadFile('index.html')
   mainWindow.openDevTools({mode:'undocked'})
+
+  // Add browserviews for Google Calendar & Whatspp during createWindow() function
+  let calView = new BrowserView(webPreferences = {zoomFactor: 0.5})
+  mainWindow.addBrowserView(calView)
+  calView.setBounds({ width: 880, height: 400, x: 520, y: 0 })
+  calView.setAutoResize({ width: true, height: false })
+  calView.webContents.loadURL("https://calendar.google.com/calendar/r")
+
+  let waView = new BrowserView()
+  mainWindow.addBrowserView(waView)
+  waView.setBounds({ width: 450, height: 800, x: 70, y: 0 })
+  waView.setAutoResize({ width: false, height: false })
+  waView.webContents.loadURL("https://web.whatsapp.com/", {userAgent: userAgent})
+
+  let hookView = new BrowserView()
+  mainWindow.addBrowserView(hookView)
+  hookView.setBounds({ width: 880, height: 400, x: 520, y: 400 })
+  hookView.setAutoResize({ width: false, height: false })
+  //Tähän vois kokeilla jotain omaa
+  //hookView.webContents.loadURL("http://localhost:5000/")
+
 
   // Emitted when the window is closed.
   mainWindow.on('closed', function () {

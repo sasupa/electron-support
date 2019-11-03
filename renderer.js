@@ -6,10 +6,11 @@
 // process.
 
 const remote = require("electron").remote
-const { app, dialog, BrowserView } = remote
+const { app, dialog, BrowserView, webContents } = remote
 
 const quitButton = document.getElementById("quit-button")
 const calButton = document.getElementById("cal-button")
+const waButton = document.getElementById("cal-button")
 
 quitButton.addEventListener("click", e => {
     app.quit()
@@ -17,36 +18,67 @@ quitButton.addEventListener("click", e => {
     //dialog.showMessageBox({message: "U quittin'?"}) < Kysely macin dialogin kautta
 })
 
-// funktio joka laukaisee kalenterin
-function createCalWindow () {
-    let win = remote.getCurrentWindow()
-    let calView = new BrowserView()
-    win.setBrowserView(calView)
-    calView.setBounds({
-        width: 700,
-        height: 400,
-        x: 100, 
-        y: 0,
-        })
-    calView.setAutoResize({width: true, height: false})
-    calView.webContents.loadURL('https://calendar.google.com/calendar/r')
-}
 
-// var joka muuttuu kun kalenteri on päällä, tahi ei
-var calStatus = false
-calButton.addEventListener("click", e => {
-    if (!calStatus) {
-        createCalWindow()
-        calStatus = true
-        console.log("Lisaa kalenteri")
-    } else {
-        let win = remote.getCurrentWindow()
-        win.removeBrowserView(calView)
-        console.log("Poista kalenteri")
-    }
-})
+// TÄSSÄ NAPPIEN TOIMINNALLISUUS, JOLLA SAA BOXIT PIILOON JA NÄKYVIIN - Päätin vaihtaa ne suoraan main.js:ään, koska niin tarpeelliset anycase
 
-// Whatsappille {userAgent: remote.getGlobal("userAgent")}
+// // funktio joka laukaisee kalenterin
+// function createCalWindow () {
+//     let win = remote.getCurrentWindow()
+//     let calView = new BrowserView()
+//     win.setBrowserView(calView)
+//     calView.setBounds({
+//         width: 700,
+//         height: 400,
+//         x: 100, 
+//         y: 0,
+//         })
+//     calView.setAutoResize({width: true, height: false})
+//     calView.webContents.loadURL('https://calendar.google.com/calendar/r')
+// }
+
+// // funktio joka laukaisee whatsappin
+// function createWaWindow () {
+//     let win = remote.getCurrentWindow()
+//     let calView = new BrowserView()
+//     win.setBrowserView(calView)
+//     calView.setBounds({
+//         width: 400,
+//         height: 800,
+//         x: 800, 
+//         y: 0,
+//         })
+//     calView.setAutoResize({width: true, height: false})
+//     calView.webContents.loadURL('https://web.whatsapp.com/', {userAgent: remote.getGlobal("userAgent")} )
+// }
+
+// // var joka muuttuu kun kalenteri on päällä, tahi ei
+// var calStatus = false
+// calButton.addEventListener("click", e => {
+//     if (!calStatus) {
+//         createCalWindow()
+//         calStatus = true
+
+//     } else {
+//         let views = BrowserView.getAllViews()
+//         let win = remote.getCurrentWindow()
+//         win.removeBrowserView(views[0])
+//         calStatus = false
+//     }
+// })
+
+// var waStatus = false
+// waButton.addEventListener("click", e => {
+//     if (!calStatus) {
+//         createWaWindow()
+//         waStatus = true
+
+//     } else {
+//         let views = BrowserView.getAllViews()
+//         let win = remote.getCurrentWindow()
+//         win.removeBrowserView(views[0])
+//         waStatus = false
+//     }
+// })
 
 // NÄIN SAA IKKUNOIDEN KOOT SELVILLE
 // var win = window,
