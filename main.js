@@ -13,6 +13,7 @@ let mainWindow
 function createWindow () {
   // Create the browser window.
   mainWindow = new BrowserWindow({
+    frame: false,
     width: 1400,
     height: 800,
     minHeight: 200,
@@ -30,13 +31,21 @@ function createWindow () {
   mainWindow.openDevTools({mode:'undocked'})
 
   // Add browserviews for Google Calendar & Whatspp during createWindow() function
-  let calView = new BrowserView(webPreferences = {zoomFactor: 0.5})
+  let calView = new BrowserView({
+    webPreferences: {
+      nodeIntegration: true,
+      zoomFactor: 0.8
+  }})
   mainWindow.addBrowserView(calView)
   calView.setBounds({ width: 880, height: 400, x: 520, y: 0 })
   calView.setAutoResize({ width: true, height: false })
   calView.webContents.loadURL("https://calendar.google.com/calendar/r")
 
-  let waView = new BrowserView()
+  let waView = new BrowserView({
+    webPreferences: {
+      nodeIntegration: true,
+      zoomFactor: 0.8
+  }})
   mainWindow.addBrowserView(waView)
   waView.setBounds({ width: 450, height: 800, x: 70, y: 0 })
   waView.setAutoResize({ width: false, height: false })
